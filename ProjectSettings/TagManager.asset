@@ -12,7 +12,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - Gun
   - 
   - 
   - 
@@ -42,11 +42,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Layer 1
-    uniqueID: 2425651459
-    locked: 0
-  - name: Layer 2
+  - name: Gun
     uniqueID: 4250941897
+    locked: 0
+  - name: Player
+    uniqueID: 2425651459
     locked: 0
   - name: Layer 3
     uniqueID: 4189426099
