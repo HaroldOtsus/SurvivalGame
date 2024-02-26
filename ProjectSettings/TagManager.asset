@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - Enemy Spawn Point
   - Wall
+  - Melee
   layers:
   - Default
   - TransparentFX

@@ -38,19 +38,40 @@ public class PlayerScript : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxHealth;
-        logicManager = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicManagerScript>();
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "GameScene")
+        {
+            currentHealth = maxHealth;
+            logicManager = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicManagerScript>();
+        }
     }
 
     void Update()
     {
         if (!playerIsAlive)
         {
-            SceneManager.LoadScene("MainMenuScene");
+            SceneManager.LoadScene("GameOverScene");
+            
         }
         LookAtMouse();
         Movement();
         Shooting();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Melee")
+        {
+            currentHealth -= 20;
+        }
+        if (currentHealth <= 0)
+        {
+            spriteRenderer.sprite = deathSprite;
+            Destroy(playerRigidbody2D);
+            Destroy(playerBoxCollider2D);
+            spriteRenderer.sortingLayerName = "Dead";
+            playerIsAlive = false;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

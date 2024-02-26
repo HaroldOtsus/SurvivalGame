@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManagerScript : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public List<GameObject> enemyPrefabs;
     public Transform[] spawnPoints;
     public float spawnInterval = 3f;
 
@@ -18,6 +18,8 @@ public class SpawnManagerScript : MonoBehaviour
     {
         int randomSpawnIndex = Random.Range(0, spawnPoints.Length);
         Transform spawnPoint = spawnPoints[randomSpawnIndex];
-        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+
+        int randomEnemyPrefabIndex = Random.Range(0, enemyPrefabs.Count);
+        Instantiate(enemyPrefabs[randomEnemyPrefabIndex], spawnPoint.position, spawnPoint.rotation);
     }
 }

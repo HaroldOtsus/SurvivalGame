@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 73619482}
   - component: {fileID: 73619481}
   m_Layer: 5
-  m_Name: PlayButton
+  m_Name: TryAgainButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,10 +157,10 @@ RectTransform:
   - {fileID: 995009712}
   m_Father: {fileID: 2129190158}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -10.990051, y: 73.267944}
-  m_SizeDelta: {x: 386.7076, y: 103.1315}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 259, y: 48}
+  m_SizeDelta: {x: -654.6674, y: -158.83}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &73619481
 MonoBehaviour:
@@ -207,8 +207,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2129190159}
-        m_TargetAssemblyTypeName: MainMenuSCRIPT, Assembly-CSharp
-        m_MethodName: PlayGame
+        m_TargetAssemblyTypeName: GameOverSceneScript, Assembly-CSharp
+        m_MethodName: TryAgain
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -288,10 +288,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 952090418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.00074387, y: 0.00065613}
+  m_SizeDelta: {x: 807.07, y: 166.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &432286064
 MonoBehaviour:
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXIT
+  m_text: EXIT TO MENU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -0.9324951, w: -1.6958008}
+  m_margin: {x: -1.675415, y: 0, z: -0.7732544, w: -1.6958008}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 952090420}
   - component: {fileID: 952090419}
   m_Layer: 5
-  m_Name: ExitButton
+  m_Name: ExitToMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -569,8 +569,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -10.990051, y: -76.732056}
-  m_SizeDelta: {x: 386.7076, y: 103.1315}
+  m_AnchoredPosition: {x: 353.20563, y: -124.98236}
+  m_SizeDelta: {x: 807.0712, y: 166.7947}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &952090419
 MonoBehaviour:
@@ -617,8 +617,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2129190159}
-        m_TargetAssemblyTypeName: MainMenuSCRIPT, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_TargetAssemblyTypeName: GameOverSceneScript, Assembly-CSharp
+        m_MethodName: ExitToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PLAY
+  m_text: TRY AGAIN
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -786,7 +786,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -0.9324951, w: -1.6958008}
+  m_margin: {x: 0, y: 0, z: 1.0205688, w: -1.6958008}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1028,10 +1028,10 @@ RectTransform:
   - {fileID: 952090418}
   m_Father: {fileID: 2082400279}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -392.6562, y: 126.732056}
-  m_SizeDelta: {x: 454.6876, y: 328.5359}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 51, y: 125}
+  m_SizeDelta: {x: -646.674, y: 338.0095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2129190159
 MonoBehaviour:
@@ -1042,7 +1042,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2129190157}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14680a783de048b4692d0aa124da1848, type: 3}
+  m_Script: {fileID: 11500000, guid: a4a0ff0edb51952408d3ed25765f98c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
