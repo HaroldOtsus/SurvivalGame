@@ -2,9 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
+    public TextMeshProUGUI healthPoints;
+    public TextMeshProUGUI shieldPoints;
+    public Sprite[] weaponSprites;
+    public Image equippedWeaponImage;
+    private int equippedWeaponIndex = 1;
+    public GameObject gunObject;
+    public Sprite shieldSprite;
+
     // Moving variables
     public Rigidbody2D playerRigidbody2D;
     public BoxCollider2D playerBoxCollider2D;
@@ -35,6 +45,16 @@ public class PlayerScript : MonoBehaviour
     // Health variables
     public int maxHealth = 100;
     public int currentHealth;
+    public int shieldHealth;
+
+    // Melee variables
+    public GameObject meleeWeapon;
+    public Animator anim;
+    public float meleeSpeed;
+    public float meleeTimer;
+
+    public float damageSpeed;
+    public float damageTimer;
 
     void Start()
     {
@@ -42,8 +62,12 @@ public class PlayerScript : MonoBehaviour
         if (currentScene.name == "GameScene")
         {
             currentHealth = maxHealth;
+            shieldHealth = maxHealth;
+            healthPoints.text = "HP: " + currentHealth.ToString();
+            shieldPoints.text = "SP: " + shieldHealth.ToString();
             logicManager = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicManagerScript>();
         }
+        equippedWeaponImage.sprite = weaponSprites[0];
     }
 
     void Update()
@@ -51,26 +75,73 @@ public class PlayerScript : MonoBehaviour
         if (!playerIsAlive)
         {
             SceneManager.LoadScene("GameOverScene");
-            
         }
         LookAtMouse();
         Movement();
-        Shooting();
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            shootingSpriteTimer = 0;
+            if (equippedWeaponIndex < weaponSprites.Length)
+            {
+                equippedWeaponImage.sprite = weaponSprites[equippedWeaponIndex];
+                equippedWeaponIndex++;           
+            }
+            else
+            {
+                equippedWeaponIndex = 0;
+                equippedWeaponImage.sprite = weaponSprites[equippedWeaponIndex];
+                equippedWeaponIndex++;
+            }
+        }
+        SpriteRenderer gunSprite = gunObject.GetComponent<SpriteRenderer>();
+        if (equippedWeaponIndex == 1)
+        {
+            meleeWeapon.SetActive(false);
+            gunSprite.sprite = null;
+            Shooting();
+        }
+        else if (equippedWeaponIndex == 2)
+        {
+            meleeWeapon.SetActive(true);
+            Melee();
+        }
+        else if (equippedWeaponIndex == 3 && shieldHealth > 0)
+        {
+            meleeWeapon.SetActive(false);
+            gunSprite.sprite = shieldSprite;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Melee")
+        if (damageTimer <= 0f)
         {
-            currentHealth -= 20;
+            if (collision.gameObject.tag == "Melee")
+            {
+                if (equippedWeaponIndex == 3 && shieldHealth > 0)
+                {
+                    shieldHealth -= 5;
+                    shieldPoints.text = "SP: " + shieldHealth.ToString();
+                }
+                else
+                {
+                    currentHealth -= 5;
+                    healthPoints.text = "HP: " + currentHealth.ToString();
+                }
+            }
+            if (currentHealth <= 0)
+            {
+                spriteRenderer.sprite = deathSprite;
+                Destroy(playerRigidbody2D);
+                Destroy(playerBoxCollider2D);
+                spriteRenderer.sortingLayerName = "Dead";
+                playerIsAlive = false;
+            }
+            damageTimer = damageSpeed;
         }
-        if (currentHealth <= 0)
+        else
         {
-            spriteRenderer.sprite = deathSprite;
-            Destroy(playerRigidbody2D);
-            Destroy(playerBoxCollider2D);
-            spriteRenderer.sortingLayerName = "Dead";
-            playerIsAlive = false;
+            damageTimer -= Time.deltaTime;
         }
     }
 
@@ -78,7 +149,16 @@ public class PlayerScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            currentHealth -= 10;
+            if (equippedWeaponIndex == 3 && shieldHealth > 0)
+            {
+                shieldHealth -= 10;
+                shieldPoints.text = "SP: " + shieldHealth.ToString();
+            }
+            else
+            {
+                currentHealth -= 10;
+                healthPoints.text = "HP: " + currentHealth.ToString();
+            }
         }
         if (currentHealth <= 0)
         {
@@ -98,6 +178,22 @@ public class PlayerScript : MonoBehaviour
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.right = mousePos - new Vector2(transform.position.x, transform.position.y);
         }
+    }
+
+    private void Melee()
+    {
+        if (playerIsAlive)
+        {
+            if (Input.GetMouseButtonDown(0) && meleeTimer <= 0f)
+            {
+                anim.SetTrigger("Attack");
+                meleeTimer = meleeSpeed;
+            }
+            else
+            {
+                meleeTimer -= Time.deltaTime;
+            }
+        } 
     }
 
     // Makes the player character move with the 'WASD' or arrow inputs
@@ -160,7 +256,6 @@ public class PlayerScript : MonoBehaviour
                 Instantiate(bulletPrefab, firingPoint.position, firingPoint.rotation);
                 fireRateTimer = fireRate;
 
-                // 
                 spriteRenderer.sprite = shootingSprite;
                 shootingSpriteTimer = shootingSpriteRate;
             }

@@ -3,7 +3,11 @@ guid: 14680a783de048b4692d0aa124da1848
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - logicManager: {fileID: 3805005499955845954, guid: 57adf6b59f3012342a1aefdc7756d7a5,
+      type: 3}
+  - scoreText: {fileID: 2858840657274950655, guid: bfa13786629c6e84f93d3a4baeec18db,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -41,7 +41,11 @@ public class EnemyShieldScript : MonoBehaviour
     // Health variables
     public int maxHealth = 20;
     public int currentHealth;
-    
+    private bool hasDied = false;
+
+    public float damageSpeed;
+    public float damageTimer;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -84,9 +88,12 @@ public class EnemyShieldScript : MonoBehaviour
                 }
             }
         }
-        else
+        else if (!hasDied)
         {
-            Invoke("DestroyObject", 60f);
+            logicManager.addScore(20);
+            Instantiate(enemyPrefab, transform.position, transform.rotation);
+            Destroy(gameObject);
+            hasDied = true;
         }
     }
 
@@ -149,8 +156,30 @@ public class EnemyShieldScript : MonoBehaviour
             Destroy(agent);
             spriteRenderer.sortingLayerName = "Dead";
             enemyIsAlive = false;
-            Instantiate(enemyPrefab, transform.position, transform.rotation);
-            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (damageTimer <= 0f)
+        {
+            if (collision.gameObject.tag == "Melee")
+            {
+                currentHealth -= 20;
+            }
+            if (currentHealth <= 0)
+            {
+                spriteRenderer.sprite = deathSprite;
+                Destroy(enemyRigidbody2D);
+                Destroy(enemyBoxCollider2D);
+                spriteRenderer.sortingLayerName = "Dead";
+                enemyIsAlive = false;
+            }
+            damageTimer = damageSpeed;
+        }
+        else
+        {
+            damageTimer -= Time.deltaTime;
         }
     }
 }

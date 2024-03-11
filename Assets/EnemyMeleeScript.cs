@@ -45,6 +45,10 @@ public class EnemyMeleeScript : MonoBehaviour
     // Health variables
     public int maxHealth = 20;
     public int currentHealth;
+    private bool hasDied = false;
+
+    public float damageSpeed;
+    public float damageTimer;
 
     void Start()
     {
@@ -89,9 +93,11 @@ public class EnemyMeleeScript : MonoBehaviour
                 }
             }
         }
-        else
+        else if (!hasDied)
         {
+            logicManager.addScore(10);
             Invoke("DestroyObject", 60f);
+            hasDied = true;
         }
     }
 
@@ -170,6 +176,30 @@ public class EnemyMeleeScript : MonoBehaviour
 
             Rigidbody2D weaponRigidbody = weapon.GetComponent<Rigidbody2D>();
             Destroy(weaponRigidbody);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (damageTimer <= 0f)
+        {
+            if (collision.gameObject.tag == "Melee")
+            {
+                currentHealth -= 20;
+            }
+            if (currentHealth <= 0)
+            {
+                spriteRenderer.sprite = deathSprite;
+                Destroy(enemyRigidbody2D);
+                Destroy(enemyBoxCollider2D);
+                spriteRenderer.sortingLayerName = "Dead";
+                enemyIsAlive = false;
+            }
+            damageTimer = damageSpeed;
+        }
+        else
+        {
+            damageTimer -= Time.deltaTime;
         }
     }
 }
