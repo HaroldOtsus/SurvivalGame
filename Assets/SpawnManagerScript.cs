@@ -6,7 +6,7 @@ public class SpawnManagerScript : MonoBehaviour
 {
     public List<GameObject> enemyPrefabs;
     public Transform[] spawnPoints;
-    public float spawnInterval = 3f;
+    private float spawnInterval = 3f;
 
     // Start is called before the first frame update
     void Start()

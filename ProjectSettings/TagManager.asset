@@ -10,6 +10,9 @@ TagManager:
   - Enemy Spawn Point
   - Wall
   - Melee
+  - Waypoint
+  - EnemyMelee
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX

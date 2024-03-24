@@ -13,6 +13,6 @@ public class LogicManagerScript : MonoBehaviour
     public void addScore(int scoreToAdd)
     {
         playerScore += scoreToAdd;
-        scoreText.text = "SCORE: " + playerScore.ToString();
+        scoreText.text = "PUNKTID: " + playerScore.ToString();
     }
 }

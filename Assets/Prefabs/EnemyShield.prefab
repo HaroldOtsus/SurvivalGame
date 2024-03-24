@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2132198368340863457}
   m_Layer: 8
   m_Name: Gun
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -185,7 +185,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 11000
+  m_Mass: 1000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -281,20 +281,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyRigidbody2D: {fileID: 2526592035242698877}
   enemyBoxCollider2D: {fileID: 2269273797507773583}
-  moveSpeed: 0.75
+  moveSpeed: 4
   moveTimer: 1
-  stoppingDistance: 1
-  avoidDistance: 2
+  stoppingDistance: 3
+  avoidDistance: 3
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 136
+  algorithmtype: 0
+  waypoints: []
   logicManager: {fileID: 5813767614780914443, guid: 57adf6b59f3012342a1aefdc7756d7a5,
     type: 3}
   enemyIsAlive: 1
   enemyPrefab: {fileID: 4645778518564218877, guid: 2dd6915db22990045bcc896499051e69,
     type: 3}
-  detectionRange: 2
-  shootingRange: 2
+  escapeHealthThreshold: 21
+  detectionRange: 8
+  shootingRange: 3
   spriteArray:
   - {fileID: 1731708991, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}
   - {fileID: -232725570, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}

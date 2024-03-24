@@ -217,7 +217,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 11000
+  m_Mass: 1000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -291,24 +291,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyRigidbody2D: {fileID: 6820313316794650789}
   enemyBoxCollider2D: {fileID: 7419563846704835720}
-  moveSpeed: 1
+  moveSpeed: 3
   moveTimer: 2
-  stoppingDistance: 3
-  avoidDistance: 2
+  stoppingDistance: 6
+  avoidDistance: 4
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 136
+  algorithmtype: 0
+  waypoints: []
   logicManager: {fileID: 5813767614780914443, guid: 57adf6b59f3012342a1aefdc7756d7a5,
     type: 3}
   enemyIsAlive: 1
-  bulletPrefab: {fileID: 4971298741448500513, guid: c35976bd49baa0b48b8d45240895e315,
+  escapeHealthThreshold: 11
+  bulletPrefab: {fileID: 4971298741448500513, guid: 6eb8041335603d744a4b51a4bda1bd21,
     type: 3}
   firingPoint: {fileID: 9171676322891114772}
   fireRate: 1
   fireRateTimer: 0
   shootingSpriteRate: 0.25
-  detectionRange: 10
-  shootingRange: 3
+  detectionRange: 8
+  shootingRange: 5
   spriteArray:
   - {fileID: 1731708991, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}
   - {fileID: -232725570, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}

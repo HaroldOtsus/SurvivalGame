@@ -21,17 +21,27 @@ public class EnemyMeleeScript : MonoBehaviour
 
     NavMeshAgent agent;
 
+    public int algorithmtype;
+
+    // Waypoints for patrolling
+    public List<Transform> waypoints = new List<Transform>();
+    private int currentWaypointIndex = 0;
+    private bool isWaiting = false;
+    private float waitTimer = 0f;
+
     // Logic Variables
     public LogicManagerScript logicManager;
     public bool enemyIsAlive = true;
+    public int escapeHealthThreshold;
+    private bool isEscaping = false;
 
     public GameObject weapon;
     public Animator anim;
     public float meleeSpeed;
     public float meleeTimer;
 
-    public float detectionRange = 5f;
-    public float shootingRange = 5f;
+    public float detectionRange;
+    public float shootingRange;
 
     // Sprite variables
     public Sprite[] spriteArray;
@@ -45,60 +55,164 @@ public class EnemyMeleeScript : MonoBehaviour
     // Health variables
     public int maxHealth = 20;
     public int currentHealth;
-    private bool hasDied = false;
 
     public float damageSpeed;
     public float damageTimer;
 
     void Start()
     {
+        algorithmtype = PlayerPrefs.GetInt("AlgorithmType");
         currentHealth = maxHealth;
         logicManager = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicManagerScript>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
+        if (algorithmtype == 2)
+        {
+            GameObject[] waypointObjects = GameObject.FindGameObjectsWithTag("Waypoint");
+            foreach (GameObject waypointObject in waypointObjects)
+            {
+                waypoints.Add(waypointObject.transform);
+            }
+            ChangeWaypoint();
+        }
     }
 
     void Update()
     {
-        if (enemyIsAlive)
+        if (enemyIsAlive && !isEscaping)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             Vector2 direction = player.position - transform.position;
-
-            LookAtPlayer();
-            Movement(distanceToPlayer);
-
-            agent.SetDestination(player.position);
-
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 10f, obstacleLayer);
-            if (hit)
+            if (algorithmtype == 1)
             {
-                if (hit.collider.name == "Player")
+                LookAtPlayer();
+                Movement(distanceToPlayer);
+
+                agent.SetDestination(player.position);
+                agent.speed = moveSpeed;
+
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 10f, obstacleLayer);
+                if (hit)
                 {
-                    if (distanceToPlayer <= shootingRange)
+                    if (hit.collider.name == "Player")
                     {
-                        agent.isStopped = true;
-                        Melee();
+                        if (distanceToPlayer <= shootingRange)
+                        {
+                            agent.isStopped = true;
+                            Melee();
+                        }
+                        else
+                        {
+                            agent.isStopped = false;
+                        }
                     }
                     else
                     {
-                        agent.isStopped = false;
+                        agent.SetDestination(player.position - player.transform.forward);
+                    }
+                }
+            }
+            else if (algorithmtype == 2)
+            {
+                agent.speed = moveSpeed;
+                if (Vector3.Distance(transform.position, player.position) < detectionRange)
+                {
+                    LookAtPlayer();
+                    Movement(distanceToPlayer);
+
+                    agent.SetDestination(player.position);
+
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 10f, obstacleLayer);
+                    if (hit)
+                    {
+                        if (hit.collider.name == "Player")
+                        {
+                            if (distanceToPlayer <= shootingRange)
+                            {
+                                agent.isStopped = true;
+                                Melee();
+                            }
+                            else
+                            {
+                                agent.isStopped = false;
+                            }
+                        }
+                        else
+                        {
+                            agent.SetDestination(player.position - player.transform.forward);
+                        }
                     }
                 }
                 else
                 {
-                    agent.SetDestination(player.position - player.transform.forward);
+                    if (isWaiting)
+                    {
+                        waitTimer -= Time.deltaTime;
+                        if (waitTimer <= 0f)
+                        {
+                            isWaiting = false;
+                        }
+                    }
+                    else if (!agent.pathPending && agent.remainingDistance <= 0.5f)
+                    {
+                        if (Wait())
+                        {
+                            isWaiting = true;
+                            waitTimer = 20f;
+                            agent.isStopped = true;
+                        }
+                        else
+                        {
+                            agent.isStopped = false;
+                            ChangeWaypoint();
+                        }
+                    }
+                    else
+                    {
+                        Vector2 directionToWaypoint = waypoints[currentWaypointIndex].position - transform.position;
+                        transform.right = directionToWaypoint.normalized;
+
+                        agent.SetDestination(waypoints[currentWaypointIndex].position);
+                    }
+
                 }
+                
+            }
+            else
+            {
+
             }
         }
-        else if (!hasDied)
+
+        if (isEscaping && enemyIsAlive)
         {
-            logicManager.addScore(10);
-            Invoke("DestroyObject", 60f);
-            hasDied = true;
+            agent.speed = moveSpeed;
+            agent.isStopped = false;
+
+            Vector2 directionToWaypoint = waypoints[currentWaypointIndex].position - transform.position;
+            transform.right = directionToWaypoint.normalized;
+
+            agent.SetDestination(waypoints[currentWaypointIndex].position);
+
+            if (!agent.pathPending && agent.remainingDistance <= 0.5f)
+            {
+                isEscaping = false;
+            }
         }
+    }
+
+    private bool Wait()
+    {
+        return Random.value < 0.5f;
+    }
+
+    private void ChangeWaypoint()
+    {
+        currentWaypointIndex = Random.Range(0, waypoints.Count);
+        agent.SetDestination(waypoints[currentWaypointIndex].position);
     }
 
     private void Melee()
@@ -165,6 +279,13 @@ public class EnemyMeleeScript : MonoBehaviour
         {
             currentHealth -= 10;
         }
+
+        if (currentHealth <= escapeHealthThreshold)
+        {
+            isEscaping = true;
+            ChangeWaypoint();
+        }
+
         if (currentHealth <= 0)
         {
             spriteRenderer.sprite = deathSprite;
@@ -173,8 +294,10 @@ public class EnemyMeleeScript : MonoBehaviour
             Destroy(agent);
             spriteRenderer.sortingLayerName = "Dead";
             enemyIsAlive = false;
+            logicManager.addScore(30);
+            Invoke("DestroyObject", 60f);
 
-            Rigidbody2D weaponRigidbody = weapon.GetComponent<Rigidbody2D>();
+            BoxCollider2D weaponRigidbody = weapon.GetComponent<BoxCollider2D>();
             Destroy(weaponRigidbody);
         }
     }
@@ -187,13 +310,26 @@ public class EnemyMeleeScript : MonoBehaviour
             {
                 currentHealth -= 20;
             }
+
+            if (currentHealth <= escapeHealthThreshold)
+            {
+                isEscaping = true;
+                ChangeWaypoint();
+            }
+
             if (currentHealth <= 0)
             {
                 spriteRenderer.sprite = deathSprite;
                 Destroy(enemyRigidbody2D);
+                Destroy(agent);
                 Destroy(enemyBoxCollider2D);
                 spriteRenderer.sortingLayerName = "Dead";
                 enemyIsAlive = false;
+                logicManager.addScore(30);
+                Invoke("DestroyObject", 60f);
+
+                BoxCollider2D weaponRigidbody = weapon.GetComponent<BoxCollider2D>();
+                Destroy(weaponRigidbody);
             }
             damageTimer = damageSpeed;
         }

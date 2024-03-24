@@ -63,8 +63,8 @@ public class PlayerScript : MonoBehaviour
         {
             currentHealth = maxHealth;
             shieldHealth = maxHealth;
-            healthPoints.text = "HP: " + currentHealth.ToString();
-            shieldPoints.text = "SP: " + shieldHealth.ToString();
+            healthPoints.text = "ELU PUNKTID: " + currentHealth.ToString();
+            shieldPoints.text = "KILBI PUNKTID: " + shieldHealth.ToString();
             logicManager = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicManagerScript>();
         }
         equippedWeaponImage.sprite = weaponSprites[0];
@@ -116,17 +116,19 @@ public class PlayerScript : MonoBehaviour
     {
         if (damageTimer <= 0f)
         {
-            if (collision.gameObject.tag == "Melee")
+            if (collision.gameObject.tag == "EnemyMelee")
             {
                 if (equippedWeaponIndex == 3 && shieldHealth > 0)
                 {
                     shieldHealth -= 5;
-                    shieldPoints.text = "SP: " + shieldHealth.ToString();
+                    shieldPoints.text = "KILBI PUNKTID: " + shieldHealth.ToString();
+                    currentHealth += 5;
+                    healthPoints.text = "ELU PUNKTID: " + currentHealth.ToString();
                 }
                 else
                 {
                     currentHealth -= 5;
-                    healthPoints.text = "HP: " + currentHealth.ToString();
+                    healthPoints.text = "ELU PUNKTID: " + currentHealth.ToString();
                 }
             }
             if (currentHealth <= 0)
@@ -147,17 +149,19 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Bullet")
+        if (collision.gameObject.tag == "EnemyBullet")
         {
             if (equippedWeaponIndex == 3 && shieldHealth > 0)
             {
                 shieldHealth -= 10;
-                shieldPoints.text = "SP: " + shieldHealth.ToString();
+                shieldPoints.text = "KILBI PUNKTID: " + shieldHealth.ToString();
+                currentHealth += 5;
+                healthPoints.text = "ELU PUNKTID: " + currentHealth.ToString();
             }
             else
             {
                 currentHealth -= 10;
-                healthPoints.text = "HP: " + currentHealth.ToString();
+                healthPoints.text = "ELU PUNKTID: " + currentHealth.ToString();
             }
         }
         if (currentHealth <= 0)
