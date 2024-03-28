@@ -464,7 +464,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: A* algoritm
+  m_Text: Lihtne algoritm
 --- !u!222 &244252229
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1663,8 +1663,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.822, y: 139}
-  m_SizeDelta: {x: 328.1357, y: 79.9363}
+  m_AnchoredPosition: {x: 64.55186, y: 139}
+  m_SizeDelta: {x: 405.5953, y: 79.9363}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1996560149
 MonoBehaviour:

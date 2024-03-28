@@ -91,7 +91,7 @@ public class EnemyScript : MonoBehaviour
             if (algorithmtype == 1)
             {
                 LookAtPlayer();
-                Movement(distanceToPlayer);
+                Movement();
 
                 agent.SetDestination(player.position);
                 agent.speed = moveSpeed;
@@ -123,6 +123,7 @@ public class EnemyScript : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.position) < detectionRange)
                 {
                     LookAtPlayer();
+                    Movement();
                     agent.SetDestination(player.position);
 
                     RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 10f, obstacleLayer);
@@ -174,6 +175,8 @@ public class EnemyScript : MonoBehaviour
                     {
                         Vector2 directionToWaypoint = waypoints[currentWaypointIndex].position - transform.position;
                         transform.right = directionToWaypoint.normalized;
+                        
+                        Movement();
 
                         agent.SetDestination(waypoints[currentWaypointIndex].position);
                     }
@@ -183,7 +186,32 @@ public class EnemyScript : MonoBehaviour
             }
             else
             {
+                LookAtPlayer();
+                Movement();
 
+                agent.SetDestination(player.position);
+                agent.speed = moveSpeed;
+
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 10f, obstacleLayer);
+                if (hit)
+                {
+                    if (hit.collider.name == "Player")
+                    {
+                        if (distanceToPlayer <= shootingRange)
+                        {
+                            agent.isStopped = true;
+                            Shooting();
+                        }
+                        else
+                        {
+                            agent.isStopped = false;
+                        }
+                    }
+                    else
+                    {
+                        agent.SetDestination(player.position - player.transform.forward);
+                    }
+                }
             }
         }
 
@@ -195,6 +223,7 @@ public class EnemyScript : MonoBehaviour
             Vector2 directionToWaypoint = waypoints[currentWaypointIndex].position - transform.position;
             transform.right = directionToWaypoint.normalized;
 
+            Movement();
             agent.SetDestination(waypoints[currentWaypointIndex].position);
 
             if (!agent.pathPending && agent.remainingDistance <= 0.5f)
@@ -230,7 +259,7 @@ public class EnemyScript : MonoBehaviour
     }
 
     // Makes the enemy character move
-    private void Movement(float distanceToPlayer)
+    private void Movement()
     {
         // Checks if the enemy character is moving
         if (!agent.isStopped)
@@ -276,12 +305,15 @@ public class EnemyScript : MonoBehaviour
             currentHealth -= 10;
         }
 
-        if (currentHealth <= escapeHealthThreshold)
+        if (algorithmtype == 2)
         {
-            isEscaping = true;
-            ChangeWaypoint();
+            if (currentHealth <= escapeHealthThreshold)
+            {
+                isEscaping = true;
+                ChangeWaypoint();
+            }
         }
-
+        
         if (currentHealth <= 0)
         {
             spriteRenderer.sprite = deathSprite;
@@ -290,7 +322,7 @@ public class EnemyScript : MonoBehaviour
             Destroy(agent);
             spriteRenderer.sortingLayerName = "Dead";
             enemyIsAlive = false;
-            logicManager.addScore(15);
+            logicManager.addScore(1);
             Invoke("DestroyObject", 60f);
         }
     }
@@ -327,10 +359,13 @@ public class EnemyScript : MonoBehaviour
                 currentHealth -= 20;
             }
 
-            if (currentHealth <= escapeHealthThreshold)
+            if (algorithmtype == 2)
             {
-                isEscaping = true;
-                ChangeWaypoint();
+                if (currentHealth <= escapeHealthThreshold)
+                {
+                    isEscaping = true;
+                    ChangeWaypoint();
+                }
             }
 
             if (currentHealth <= 0)
@@ -341,7 +376,7 @@ public class EnemyScript : MonoBehaviour
                 Destroy(agent);
                 spriteRenderer.sortingLayerName = "Dead";
                 enemyIsAlive = false;
-                logicManager.addScore(15);
+                logicManager.addScore(1);
                 Invoke("DestroyObject", 60f);
             }
             damageTimer = damageSpeed;

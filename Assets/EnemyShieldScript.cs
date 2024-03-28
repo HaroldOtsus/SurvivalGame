@@ -4,6 +4,7 @@ using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.UI.Image;
 
@@ -85,7 +86,7 @@ public class EnemyShieldScript : MonoBehaviour
             if (algorithmtype == 1)
             {
                 LookAtPlayer();
-                Movement(distanceToPlayer);
+                Movement();
 
                 agent.SetDestination(player.position);
                 agent.speed = moveSpeed;
@@ -116,7 +117,7 @@ public class EnemyShieldScript : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.position) < detectionRange)
                 {
                     LookAtPlayer();
-                    Movement(distanceToPlayer);
+                    Movement();
 
                     agent.SetDestination(player.position);
 
@@ -169,6 +170,8 @@ public class EnemyShieldScript : MonoBehaviour
                         Vector2 directionToWaypoint = waypoints[currentWaypointIndex].position - transform.position;
                         transform.right = directionToWaypoint.normalized;
 
+                        Movement();
+
                         agent.SetDestination(waypoints[currentWaypointIndex].position);
                     }
 
@@ -177,7 +180,47 @@ public class EnemyShieldScript : MonoBehaviour
             }
             else
             {
+                LookAtPlayer();
+                Movement();
 
+                agent.speed = moveSpeed;
+
+                GameObject closestEnemy = FindClosestEnemy(transform.position, 30f);
+
+                if (closestEnemy != null)
+                {
+                    // Arvutab kauguse püstoliga vastaseni
+                    float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
+                    
+                    // Kontrollib, kas püstoliga vastane on piisavalt lähedal, et teda kaitsta
+                    if (distance < 30f)
+                    {
+                        // Liigub püstoliga vastase ette
+                        Vector3 targetPosition = closestEnemy.transform.position + closestEnemy.transform.right * 2f;
+                        float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+
+                        if (distanceToTarget < 0.05f)
+                        {
+                            //Sprite vahetus vajalik, kuna kui kilbiga vastane jääb seisma püstoliga vastase ees, siis ta peaks seisma jäämis
+                            //sprite'ile vahetama, aga millegi pärast ta seda ei tee, siis järgnev koodirida teeb seda ise
+                            spriteRenderer.sprite = spriteArray[0];
+                            agent.isStopped = true;
+                        }
+                        else
+                        {
+                            agent.isStopped = false;
+                            agent.SetDestination(targetPosition);
+                        }
+
+                        LookAtPlayer();
+                    }
+                }
+                else
+                {
+                    agent.SetDestination(player.position);
+                }
+
+                
             }
             
         }
@@ -190,6 +233,8 @@ public class EnemyShieldScript : MonoBehaviour
             Vector2 directionToWaypoint = waypoints[currentWaypointIndex].position - transform.position;
             transform.right = directionToWaypoint.normalized;
 
+            Movement();
+
             agent.SetDestination(waypoints[currentWaypointIndex].position);
 
             if (!agent.pathPending && agent.remainingDistance <= 0.5f)
@@ -197,6 +242,35 @@ public class EnemyShieldScript : MonoBehaviour
                 isEscaping = false;
             }
         }
+    }
+
+    private GameObject FindClosestEnemy(Vector3 position, float searchRadius)
+    {
+        // Leiab kõik püstoliga vastased ette antud raadiusega
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, searchRadius);
+
+        GameObject closestEnemy = null;
+        float closestDistance = 1000f;
+
+        // Käib läbi kõik leitud vastased
+        foreach (var collider in colliders)
+        {
+            // Kontrollib, et vastane oleks püstoliga
+            if (collider.CompareTag("EnemyTypePistol"))
+            {
+                // Arvutab kauguse vastaseni
+                float distance = Vector3.Distance(position, collider.transform.position);
+                
+                // Kui see on kõige lähim püstoliga vastane, siis salvestab selle
+                if (distance < closestDistance)
+                {
+                    closestEnemy = collider.gameObject;
+                    closestDistance = distance;
+                }
+            }
+        }
+        
+        return closestEnemy;
     }
 
     private bool Wait()
@@ -219,7 +293,7 @@ public class EnemyShieldScript : MonoBehaviour
     }
 
     // Makes the enemy character move
-    private void Movement(float distanceToPlayer)
+    private void Movement()
     {
         // Checks if the enemy character is moving
         if (!agent.isStopped)
@@ -257,10 +331,13 @@ public class EnemyShieldScript : MonoBehaviour
             currentHealth -= 10;
         }
 
-        if (currentHealth <= escapeHealthThreshold)
+        if (algorithmtype == 2)
         {
-            isEscaping = true;
-            ChangeWaypoint();
+            if (currentHealth <= escapeHealthThreshold)
+            {
+                isEscaping = true;
+                ChangeWaypoint();
+            }
         }
 
         if (currentHealth <= 0)
@@ -271,7 +348,7 @@ public class EnemyShieldScript : MonoBehaviour
             Destroy(agent);
             spriteRenderer.sortingLayerName = "Dead";
             enemyIsAlive = false;
-            logicManager.addScore(20);
+            logicManager.addScore(1);
             Instantiate(enemyPrefab, transform.position, transform.rotation);
             Destroy(gameObject);
         }
@@ -286,10 +363,13 @@ public class EnemyShieldScript : MonoBehaviour
                 currentHealth -= 20;
             }
 
-            if (currentHealth <= escapeHealthThreshold)
+            if (algorithmtype == 2)
             {
-                isEscaping = true;
-                ChangeWaypoint();
+                if (currentHealth <= escapeHealthThreshold)
+                {
+                    isEscaping = true;
+                    ChangeWaypoint();
+                }
             }
 
             if (currentHealth <= 0)
@@ -300,7 +380,7 @@ public class EnemyShieldScript : MonoBehaviour
                 Destroy(agent);
                 spriteRenderer.sortingLayerName = "Dead";
                 enemyIsAlive = false;
-                logicManager.addScore(20);
+                logicManager.addScore(1);
                 Instantiate(enemyPrefab, transform.position, transform.rotation);
                 Destroy(gameObject);
             }

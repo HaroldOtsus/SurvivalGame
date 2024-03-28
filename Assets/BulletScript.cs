@@ -6,7 +6,7 @@ public class BulletScript : MonoBehaviour
 {
     private Rigidbody2D bulletRigidBody2D;
     private float bulletSpeed = 20f;
-    private float bulletLifetime = 3f;
+    private float bulletLifetime = 0.5f;
     void Start()
     {
         bulletRigidBody2D = GetComponent<Rigidbody2D>();

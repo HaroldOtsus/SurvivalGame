@@ -114230,7 +114230,7 @@ Transform:
   m_GameObject: {fileID: 904630821}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.392, y: -1.77, z: 0}
+  m_LocalPosition: {x: 0.05, y: -0.1, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -114261,7 +114261,7 @@ MonoBehaviour:
   shieldSprite: {fileID: 1583865866, guid: 1a08f4b10f8072e43bc886adf6a485f8, type: 3}
   playerRigidbody2D: {fileID: 904630826}
   playerBoxCollider2D: {fileID: 904630825}
-  moveSpeed: 7
+  moveSpeed: 5
   logicManager: {fileID: 0}
   playerIsAlive: 1
   bulletPrefab: {fileID: 4971298741448500513, guid: c35976bd49baa0b48b8d45240895e315,
@@ -114725,7 +114725,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 4645778518564218877, guid: 2dd6915db22990045bcc896499051e69, type: 3}
+  - {fileID: 4645778518564218877, guid: 2dd6915db22990045bcc896499051e69, type: 3}
   - {fileID: 3512449942294803478, guid: b752eda80a031bb4caa28deb241c5a1b, type: 3}
+  - {fileID: 3512449942294803478, guid: b752eda80a031bb4caa28deb241c5a1b, type: 3}
+  - {fileID: 9150785338255666973, guid: 5dedd712698438d459499fced9788aac, type: 3}
   - {fileID: 9150785338255666973, guid: 5dedd712698438d459499fced9788aac, type: 3}
   spawnPoints:
   - {fileID: 1635419011}

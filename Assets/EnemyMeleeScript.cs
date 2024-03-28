@@ -89,7 +89,7 @@ public class EnemyMeleeScript : MonoBehaviour
             if (algorithmtype == 1)
             {
                 LookAtPlayer();
-                Movement(distanceToPlayer);
+                Movement();
 
                 agent.SetDestination(player.position);
                 agent.speed = moveSpeed;
@@ -121,7 +121,7 @@ public class EnemyMeleeScript : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.position) < detectionRange)
                 {
                     LookAtPlayer();
-                    Movement(distanceToPlayer);
+                    Movement();
 
                     agent.SetDestination(player.position);
 
@@ -175,6 +175,8 @@ public class EnemyMeleeScript : MonoBehaviour
                         Vector2 directionToWaypoint = waypoints[currentWaypointIndex].position - transform.position;
                         transform.right = directionToWaypoint.normalized;
 
+                        Movement();
+
                         agent.SetDestination(waypoints[currentWaypointIndex].position);
                     }
 
@@ -194,6 +196,8 @@ public class EnemyMeleeScript : MonoBehaviour
 
             Vector2 directionToWaypoint = waypoints[currentWaypointIndex].position - transform.position;
             transform.right = directionToWaypoint.normalized;
+
+            Movement();
 
             agent.SetDestination(waypoints[currentWaypointIndex].position);
 
@@ -242,7 +246,7 @@ public class EnemyMeleeScript : MonoBehaviour
     }
 
     // Makes the enemy character move
-    private void Movement(float distanceToPlayer)
+    private void Movement()
     {
         // Checks if the enemy character is moving
         if (!agent.isStopped)
@@ -280,10 +284,13 @@ public class EnemyMeleeScript : MonoBehaviour
             currentHealth -= 10;
         }
 
-        if (currentHealth <= escapeHealthThreshold)
+        if (algorithmtype == 2)
         {
-            isEscaping = true;
-            ChangeWaypoint();
+            if (currentHealth <= escapeHealthThreshold)
+            {
+                isEscaping = true;
+                ChangeWaypoint();
+            }
         }
 
         if (currentHealth <= 0)
@@ -294,7 +301,7 @@ public class EnemyMeleeScript : MonoBehaviour
             Destroy(agent);
             spriteRenderer.sortingLayerName = "Dead";
             enemyIsAlive = false;
-            logicManager.addScore(30);
+            logicManager.addScore(1);
             Invoke("DestroyObject", 60f);
 
             BoxCollider2D weaponRigidbody = weapon.GetComponent<BoxCollider2D>();
@@ -311,10 +318,13 @@ public class EnemyMeleeScript : MonoBehaviour
                 currentHealth -= 20;
             }
 
-            if (currentHealth <= escapeHealthThreshold)
+            if (algorithmtype == 2)
             {
-                isEscaping = true;
-                ChangeWaypoint();
+                if (currentHealth <= escapeHealthThreshold)
+                {
+                    isEscaping = true;
+                    ChangeWaypoint();
+                }
             }
 
             if (currentHealth <= 0)
@@ -325,7 +335,7 @@ public class EnemyMeleeScript : MonoBehaviour
                 Destroy(enemyBoxCollider2D);
                 spriteRenderer.sortingLayerName = "Dead";
                 enemyIsAlive = false;
-                logicManager.addScore(30);
+                logicManager.addScore(1);
                 Invoke("DestroyObject", 60f);
 
                 BoxCollider2D weaponRigidbody = weapon.GetComponent<BoxCollider2D>();

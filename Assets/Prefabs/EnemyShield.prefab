@@ -281,7 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyRigidbody2D: {fileID: 2526592035242698877}
   enemyBoxCollider2D: {fileID: 2269273797507773583}
-  moveSpeed: 4
+  moveSpeed: 6
   moveTimer: 1
   stoppingDistance: 3
   avoidDistance: 3
