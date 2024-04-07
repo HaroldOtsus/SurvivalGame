@@ -310,7 +310,7 @@ MonoBehaviour:
   fireRate: 1
   fireRateTimer: 0
   shootingSpriteRate: 0.25
-  detectionRange: 8
+  detectionRange: 12
   shootingRange: 7
   spriteArray:
   - {fileID: 1731708991, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}

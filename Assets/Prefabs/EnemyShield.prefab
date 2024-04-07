@@ -282,9 +282,6 @@ MonoBehaviour:
   enemyRigidbody2D: {fileID: 2526592035242698877}
   enemyBoxCollider2D: {fileID: 2269273797507773583}
   moveSpeed: 6
-  moveTimer: 1
-  stoppingDistance: 3
-  avoidDistance: 3
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 136
@@ -292,19 +289,19 @@ MonoBehaviour:
   waypoints: []
   logicManager: {fileID: 5813767614780914443, guid: 57adf6b59f3012342a1aefdc7756d7a5,
     type: 3}
+  spawnManager: {fileID: 0}
   enemyIsAlive: 1
+  escapeHealthThreshold: 21
   enemyPrefab: {fileID: 4645778518564218877, guid: 2dd6915db22990045bcc896499051e69,
     type: 3}
-  escapeHealthThreshold: 21
-  detectionRange: 8
-  shootingRange: 3
+  detectionRange: 12
+  stoppingRange: 1
   spriteArray:
   - {fileID: 1731708991, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}
   - {fileID: -232725570, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}
   - {fileID: -1751958780, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}
   - {fileID: 163311271, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}
   - {fileID: 21810625, guid: eeed4b1036e3ade4a9623d8c2a13aff8, type: 3}
-  shootingSprite: {fileID: 0}
   deathSprite: {fileID: 21300000, guid: 350d10a91264c6445857263a3e73f272, type: 3}
   spriteRenderer: {fileID: 7995076484580626807}
   spriteRate: 0.08

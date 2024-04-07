@@ -1,31 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.GraphicsBuffer;
 
 public class CameraFollowPlayer : MonoBehaviour
-{
-    public Transform player;
-    public float smoothSpeed = 0.125f;
-    public Vector3 offset;
+{   
+    public Transform player;             // Mängitava karakteri asukoht - Player location
+
+    // Nihe, Z koordinaat peab olema -10, kuna muidu kaamera ei näe midagi
+    // Offset, Z coordinate must be -10, because otherwise the camera won't see anything
+    public Vector3 offset;               
 
     void Update()
     {
+        // Leiab mängu aktiivse stseeni
+        // Finds the active scene in game
         UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene();
 
+        // Kui aktiivne stseen on 'GameScene' ehk mängu stseen, siis kaamera peab mängijaga kaasa liikuma
+        // If the active scene is the game scene, then the camera has to follow the player
         if (currentScene.name == "GameScene")
         {
+            // Mängija asukoha leidmine
+            // Finds the player's location
             Vector3 desiredPosition = player.position + offset;
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-            transform.position = smoothedPosition;
-        }
-        else if (currentScene.name == "MainMenuScene")
-        {
-            float x = 14.3f;
-            float y = -15.85f;
-            Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
+            
+            // Kaamera mänguobjekti seadmine mängija asukoha peale
+            // Sets the camera game object on the player's location
+            transform.position = desiredPosition;
         }
     }
 }
