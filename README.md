@@ -28,9 +28,9 @@ Gameplay tutorial:
 - Aiming and looking around is with the mouse.
 
 Used assets:
-- Cainos, https://cainos.itch.io/pixel-art-top-down-basic
-- ChrisJulch, https://chrisjulch.itch.io/top-down-shooter-pixel-art
-- L. Taluste, some assets created by author's request
+- Cainos, https://cainos.itch.io/pixel-art-top-down-basic .
+- ChrisJulch, https://chrisjulch.itch.io/top-down-shooter-pixel-art .
+- L. Taluste, some assets created by author's request.
 
 Demos:
 
@@ -66,8 +66,8 @@ Mängimise juhend:
 - Ringi vaadata ja sihtida saab hiirega.
 
 Kasutatud materjalid:
-- Cainos, https://cainos.itch.io/pixel-art-top-down-basic
-- ChrisJulch, https://chrisjulch.itch.io/top-down-shooter-pixel-art
-- L. Taluste, mõned mänguvarad tehtud autori soovil
+- Cainos, https://cainos.itch.io/pixel-art-top-down-basic .
+- ChrisJulch, https://chrisjulch.itch.io/top-down-shooter-pixel-art .
+- L. Taluste, mõned mänguvarad tehtud autori soovil.
 
 Demod:
