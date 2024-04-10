@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -84,7 +85,8 @@ public class PlayerScript : MonoBehaviour
         // Game over if the player has been destroyed
         if (!playerIsAlive)
         {
-            SceneManager.LoadScene("GameOverScene");
+            float delayInSeconds = 5f;
+            StartCoroutine(LoadGameOverScene(delayInSeconds));
         }
 
         LookAtMouse();
@@ -142,6 +144,16 @@ public class PlayerScript : MonoBehaviour
             // Displays the shield
             gunSprite.sprite = shieldSprite;
         }
+    }
+    private IEnumerator LoadGameOverScene(float delay)
+    {
+        // Oota etteantud viide sekundites
+        // Waits for the given delay amount in seconds
+        yield return new WaitForSeconds(delay);
+
+        // Laadi mäng läbi stseen
+        // Loads the game over scene
+        SceneManager.LoadScene("GameOverScene");
     }
 
     private void ShieldCheck(Collider2D collision)

@@ -1,4 +1,5 @@
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,12 @@ public class MainMenuSCRIPT : MonoBehaviour
 
     void Start()
     {
+        // Algväärtustame algoritmi tüübi
+        // Set the algorithm type to default value
+        algorithmType = 1;
+        PlayerPrefs.SetInt("AlgorithmType", algorithmType);
+        PlayerPrefs.Save();
+
         // Valikud ühendatakse valikugrupiga ja lisatakse kuulaja, et avastada muudatusi valikutes
         // Register toggles with the toggle group and add listener to detect toggle changes
         foreach (Toggle toggle in toggleGroup.GetComponentsInChildren<Toggle>())
