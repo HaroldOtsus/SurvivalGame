@@ -17,10 +17,15 @@ Enemy algorithms:
 - Adaptive algorithm - Enemies spawn in dynamic waves based on different types of enemies destroyed the most(Example: if pistol enemies are destroyed the most, they will spawn less frequently). Pistol enemies strafe when shooting the player and also back away from the player if player gets too close. Shield enemies will actively protect pistol enemies by standing in front of them with their shield up.
 
 Installation:
-
+- Download the project.
+- The game is located in the 'Build' folder.
+- Run the 'SurvivalGame.exe' file .
 
 Gameplay tutorial:
-
+- The character's movement is controllable with the 'WASD' keys.
+- Weapons can be changed with the 'TAB' key.
+- Shooting the pistol and swinging the bat is with the 'Mouse 1' key.
+- Aiming and looking around is with the mouse.
 
 Used assets:
 - Cainos, https://cainos.itch.io/pixel-art-top-down-basic
@@ -50,10 +55,15 @@ Vastaste algoritmid:
 - Adaptiivene algoritm - Vastased ilmuvad dünaamiliste lainete viisil sõltuvalt, mis vastase tüüpi on kõige rohkem hävitatud(Näide: Kui püstoliga vastaseid on kõige rohkem hävitatud, siis neid ilmub vähem). Püstoliga vastased liiguvad külg suunaliselt kui tulistavad ja liiguvad mängijast eemale, kui mängija liiga lähedale neile läheb. Kilbiga vastased aktiivselt kaitsevad püstoliga vastaseid liikudes nende ette kilbiga.
 
 Installeerimine:
-
+- Lae alla projekt.
+- Mäng asub 'Build' kaustas.
+- Ava mängu rakendus 'SurvivalGame.exe' failist.
 
 Mängimise juhend:
-
+- Mängitavat karakterit saab liigutada kasutades 'WASD' nuppe.
+- Relvi saab vahetada kasutades 'TAB' nuppu.
+- Püstolit ja kurikat saab kasutada 'Mouse 1', ehk vasak poolse hiire nupuga.
+- Ringi vaadata ja sihtida saab hiirega.
 
 Kasutatud materjalid:
 - Cainos, https://cainos.itch.io/pixel-art-top-down-basic
