@@ -33,7 +33,8 @@ Used assets:
 - L. Taluste, some assets created by author's request.
 
 Demos:
-
+- State algorithm - https://youtu.be/ZmYOgdNOaQY .
+- Adaptive algorithm - https://youtu.be/ciM1bvvQZbQ .
 
 ----
 
@@ -71,3 +72,5 @@ Kasutatud materjalid:
 - L. Taluste, mõned mänguvarad tehtud autori soovil.
 
 Demod:
+- Oleku algoritm - https://youtu.be/ZmYOgdNOaQY .
+- Adaptiivne algoritm - https://youtu.be/ciM1bvvQZbQ .
