@@ -1,4 +1,4 @@
-# SurvivalGame
+# SurvivalGame / Ellujäämise mäng
 
 SurvivalGame is a 2D top-down shooter survival computer game developed for Windows OS.
 
